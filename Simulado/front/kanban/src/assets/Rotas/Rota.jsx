@@ -3,7 +3,6 @@ import { CadUsuario } from '../../Paginas/CadUsuario.jsx'
 import { CadTarefa } from '../../Paginas/CadTarefa.jsx'
 import { Quadro } from '../../Componentes/Quadro.jsx'
 import { Inicial } from '../../Paginas/Inicial'
-import { GenTarefas } from '../../Paginas/GerenTarefas.jsx'
 
 
 
@@ -14,7 +13,7 @@ export function Rotas(){
                 <Route index element={<Quadro/>}/>
                 <Route path="cadUsuario/" element={<CadUsuario/>}/>
                 <Route path="cadTarefa/" element={<CadTarefa/>}/>
-                <Route path="genTarefas/" element={<GenTarefas/>}/>
+                <Route path="genTarefas/" element={<Quadro/>}/>
             </Route>
             
         </Routes>

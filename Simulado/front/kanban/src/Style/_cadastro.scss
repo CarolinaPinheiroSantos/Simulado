@@ -3,7 +3,7 @@
 
 .formulario{
     max-width: 500px;
-    margin: 10px;
+    margin-left: 35%;
     padding: 15px;
     background-color: $background;
     border-radius: $borda-arrendondada;
@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    
 
     h2{
         font-size: 24px;
@@ -25,6 +26,7 @@
     }
 
     input, select, textarea{
+        height: 3rem;
         padding: 5px;
         border-radius: $borda-arrendondada;
         border-color: $cor-destaque;
@@ -32,10 +34,14 @@
         font-size: 12px;
     }
     button{
+        height: 3rem;
+        width: 10rem;
         background-color: $cor-destaque;
         padding: 5px;
         border-radius: $borda-arrendondada;
         color: $background;
+        margin-left: 10rem;
+        margin-top: 2rem;
     }
 
 }

@@ -2,14 +2,15 @@
 
 .conteiner{
     width: 100vw;
-    padding: 10px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    background-color:$principal ;
+    align-items: center;
+
 
     .titulo{
-        font-size: 18px;
-        color: $background;
+        font-size: 35px;
+        color: $principal;
         font-family: $font-principal;
     }
 }

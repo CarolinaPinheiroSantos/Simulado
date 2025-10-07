@@ -5,11 +5,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const schemaCadTarefa = z.object({
-  descricao: z.string().min(1, "Preencha a descrição"),
-  setor: z.string().min(1, "Preencha o setor"),
-  prioridade: z.enum(["baixa", "media", "alta"]),
+  descricao: z
+    .string()
+    .trim()
+    .min(3, "A descrição deve ter pelo menos 3 caracteres")
+    .max(200, "Máximo de 200 caracteres")
+    .refine((val) => /[a-zA-Z]/.test(val), "A descrição deve conter letras"),
+  setor: z
+    .string()
+    .trim()
+    .min(2, "O setor deve ter pelo menos 2 caracteres")
+    .max(50, "Máximo de 50 caracteres")
+    .refine((val) => /[a-zA-Z]/.test(val), "O setor deve conter letras"),
+  prioridade: z.enum(["baixa", "media", "alta"], {
+    errorMap: () => ({ message: "Selecione uma prioridade" }),
+  }),
   data: z.string().min(1, "Selecione uma data"),
-  status: z.enum(["feito", "fazendo", "aFazer"]),
+  status: z.enum(["feito", "fazendo", "aFazer"], {
+    errorMap: () => ({ message: "Selecione um status" }),
+  }),
   usuario: z.number().min(1, "Selecione um usuário"),
 });
 
@@ -40,7 +54,12 @@ export function CadTarefa() {
 
   async function enviarTarefa(data) {
     try {
-      await axios.post("http://127.0.0.1:8000/tarefa/", data);
+      const tarefaLimpa = {
+        ...data,
+        descricao: data.descricao.trim(),
+        setor: data.setor.trim(),
+      };
+      await axios.post("http://127.0.0.1:8000/tarefa/", tarefaLimpa);
       alert("Tarefa cadastrada com sucesso!");
       reset();
     } catch (error) {
@@ -53,17 +72,30 @@ export function CadTarefa() {
     <form onSubmit={handleSubmit(enviarTarefa)} className="formulario">
       <h2>Cadastro de Tarefa</h2>
 
-      <label>Descrição:</label>
-      <textarea {...register("descricao")} />
+      <label htmlFor="descricao">Descrição:</label>
+      <textarea
+        id="descricao"
+        aria-invalid={!!errors.descricao}
+        aria-label="Descrição da tarefa"
+        placeholder="Digite descrição da tarefa..."
+        {...register("descricao")}
+      />
       {errors.descricao && <p>{errors.descricao.message}</p>}
 
-      <label>Setor:</label>
-      <input type="text" {...register("setor")} />
+      <label htmlFor="setor">Setor:</label>
+      <input
+        id="setor"
+        type="text"
+        aria-invalid={!!errors.setor}
+        aria-label="Setor responsável pela tarefa"
+        placeholder="Ex: DS, Compras, automotivo..."
+        {...register("setor")}
+      />
       {errors.setor && <p>{errors.setor.message}</p>}
 
       <label>Prioridade:</label>
-      <select {...register("prioridade")}>
-        <option value="">Selecione</option>
+      <select {...register("prioridade")} aria-label="Nível de prioridade">
+        <option value="">Selecione a prioridade</option>
         <option value="baixa">Baixa</option>
         <option value="media">Média</option>
         <option value="alta">Alta</option>
@@ -71,12 +103,16 @@ export function CadTarefa() {
       {errors.prioridade && <p>{errors.prioridade.message}</p>}
 
       <label>Data:</label>
-      <input type="date" {...register("data")} />
+      <input
+        type="date"
+        aria-label="Data de conclusão"
+        {...register("data")}
+      />
       {errors.data && <p>{errors.data.message}</p>}
 
       <label>Status:</label>
-      <select {...register("status")}>
-        <option value="">Selecione</option>
+      <select {...register("status")} aria-label="Status da tarefa">
+        <option value="">Selecione o status</option>
         <option value="feito">Feito</option>
         <option value="fazendo">Fazendo</option>
         <option value="aFazer">A Fazer</option>
@@ -84,9 +120,9 @@ export function CadTarefa() {
       {errors.status && <p>{errors.status.message}</p>}
 
       <label>Usuário:</label>
-      <select {...register("usuario", { valueAsNumber: true })}>
-        <option value="">Selecione</option>
-        {(usuarios || []).map((u) => (
+      <select {...register("usuario", { valueAsNumber: true })} aria-label="Usuário responsável">
+        <option value="">Selecione o usuário</option>
+        {usuarios.map((u) => (
           <option key={u.idUsuario} value={u.idUsuario}>
             {u.nome}
           </option>

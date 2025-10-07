@@ -1,0 +1,16 @@
+@use './variaveis' as *;
+
+.coluna{
+    display:flex;
+    flex-direction: column;
+    width: 30rem;
+    padding: 1rem; 
+    border-radius: $borda-arrendondada;
+    background-color: $background;
+
+    
+    h2{
+        padding-left: 10rem;
+        font-size: 2rem;
+    }
+}

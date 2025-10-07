@@ -23,7 +23,7 @@ export function Quadro() {
   const tarefaFeito = tarefas.filter((t) => t.status === "feito");
 
   return (
-    <main style={{ display: "flex", gap: "1rem", padding: "1rem" }}>
+    <main className="quadro">
       <Coluna titulo="A fazer" tarefas={tarefaAfazer} atualizarTarefas={atualizarTarefas} />
       <Coluna titulo="Fazendo" tarefas={tarefaFazendo} atualizarTarefas={atualizarTarefas} />
       <Coluna titulo="Feito" tarefas={tarefaFeito} atualizarTarefas={atualizarTarefas} />
